@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8>
+    <title>releases-client</title>
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <script>window.apiKey = '{{ jwt }}';</script>
+    <link rel=stylesheet href=//aui-cdn.atlassian.com/aui-adg/6.0.3/css/aui.min.css media=all>
+    <link rel=stylesheet href=//aui-cdn.atlassian.com/aui-adg/6.0.3/css/aui-experimental.min.css media=all>
+    {% for file in assets.css %}
+        <link href="{{ file }}" rel="stylesheet">
+    {% endfor %}
+</head>
+<body>
+<div id=app></div>
+
+<script src=//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js></script>
+<script src=//aui-cdn.atlassian.com/aui-adg/6.0.3/js/aui.min.js></script>
+<script src=//aui-cdn.atlassian.com/aui-adg/6.0.3/js/aui-experimental.min.js></script>
+<script src=//aui-cdn.atlassian.com/aui-adg/6.0.3/js/aui-datepicker.min.js></script>
+<script type=text/javascript src=/static/js/manifest.f9f1de7fde0519522b31.js></script>
+<script type=text/javascript src=/static/js/vendor.3d2f6014c9ca6b2b1819.js></script>
+<script type=text/javascript src=/static/js/app.fe4e8c9ab4b1cfdb4453.js></script>
+<script id="connect-loader" data-options="sizeToParent:true;">
+    (function() {
+        var options = document.getElementById('connect-loader').getAttribute('data-options');
+        var script = document.createElement("script");
+        script.src = '{{ app.user.baseUrl }}{{ app.debug ? '/atlassian-connect/all-debug.js' : '/atlassian-connect/all.js' }}';
+        if(options) {
+            script.setAttribute('data-options', options);
+        }
+        document.getElementsByTagName("body")[0].appendChild(script);
+    })();
+</script>
+</body>
+</html>
