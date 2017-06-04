@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DefaultController extends Controller
 {
@@ -20,21 +21,25 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $assets = json_decode(file_get_contents(__DIR__.'/../../../assets.json'), true);
-        $typeAssets = [
-            'css' => [],
-            'js' => []
-        ];
-        foreach($assets as $key => $value) {
-            foreach($value as $type => $asset) {
-                $typeAssets[$type][] = $asset;
-            }
-        }
-
         $response = new Response();
         $response->headers->set('Referrer-Policy', 'no-referrer');
         return $this->render('@App/Default/index.html.twig', [
-            'assets' => $typeAssets,
+            'assets' => $assets,
             'jwt' => $this->get('lexik_jwt_authentication.jwt_manager')->create($this->getUser())
         ], $response);
+    }
+
+    /**
+     * @Route("/protected/dev-api-key")
+     * @return Response
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    public function devApiKeyAction()
+    {
+        if($this->get('kernel')->isDebug()) {
+            return new Response($this->get('lexik_jwt_authentication.jwt_manager')->create($this->getUser()), 200);
+        }
+
+        throw new NotFoundHttpException();
     }
 }

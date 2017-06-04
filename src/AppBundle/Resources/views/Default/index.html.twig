@@ -4,12 +4,10 @@
     <meta charset=utf-8>
     <title>releases-client</title>
     <meta name=viewport content="width=device-width,initial-scale=1">
-    <script>window.apiKey = '{{ jwt }}';</script>
+    <script>window.apiKey = '{{ jwt }}'</script>
     <link rel=stylesheet href=//aui-cdn.atlassian.com/aui-adg/6.0.3/css/aui.min.css media=all>
     <link rel=stylesheet href=//aui-cdn.atlassian.com/aui-adg/6.0.3/css/aui-experimental.min.css media=all>
-    {% for file in assets.css %}
-        <link href="{{ file }}" rel="stylesheet">
-    {% endfor %}
+    <link href="{{ assets.app.css }}" rel="stylesheet">
 </head>
 <body>
 <div id=app></div>
@@ -18,9 +16,9 @@
 <script src=//aui-cdn.atlassian.com/aui-adg/6.0.3/js/aui.min.js></script>
 <script src=//aui-cdn.atlassian.com/aui-adg/6.0.3/js/aui-experimental.min.js></script>
 <script src=//aui-cdn.atlassian.com/aui-adg/6.0.3/js/aui-datepicker.min.js></script>
-<script type=text/javascript src=/static/js/manifest.f9f1de7fde0519522b31.js></script>
-<script type=text/javascript src=/static/js/vendor.3d2f6014c9ca6b2b1819.js></script>
-<script type=text/javascript src=/static/js/app.fe4e8c9ab4b1cfdb4453.js></script>
+<script src="{{ assets.manifest.js }}"></script>
+<script src="{{ assets.vendor.js }}"></script>
+<script src="{{ assets.app.js }}"></script>
 <script id="connect-loader" data-options="sizeToParent:true;">
     (function() {
         var options = document.getElementById('connect-loader').getAttribute('data-options');

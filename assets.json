@@ -1,1 +1,12 @@
-{"vendor":{"js":"/static/js/vendor.3d2f6014c9ca6b2b1819.js"},"app":{"js":"/static/js/app.4146e9d1f634aaf346a6.js","css":"/static/css/app.d838516ae4fcb08fe83c1f92b6a4d135.css"},"manifest":{"js":"/static/js/manifest.31cdfb00c521afc67c7f.js"}}
+{
+    "vendor": {
+        "js": "/static/js/vendor.3d2f6014c9ca6b2b1819.js"
+    },
+    "app": {
+        "js": "/static/js/app.4146e9d1f634aaf346a6.js",
+        "css": "/static/css/app.d838516ae4fcb08fe83c1f92b6a4d135.css"
+    },
+    "manifest": {
+        "js": "/static/js/manifest.31cdfb00c521afc67c7f.js"
+    }
+}

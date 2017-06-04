@@ -11,8 +11,11 @@
           </header>
           <label>
             Select project:
-            <aui-select2-single placeholder="Select project" :value="selected ? selected.key : undefined" @input="updateSelectedProject">
-              <aui-select2-option v-for="project in projects" :key="project.key" :value="project.key">{{ project.name }}</aui-select2-option>
+            <aui-select2-single placeholder="Select project" :value="selected ? selected.key : undefined"
+                                @input="updateSelectedProject">
+              <aui-select2-option v-for="project in projects" :key="project.key" :value="project.key">{{ project.name
+                }}
+              </aui-select2-option>
             </aui-select2-single>
           </label>
           <br><br><br>
