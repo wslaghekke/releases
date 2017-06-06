@@ -30,7 +30,7 @@ const actions = {
     return projectApi.getProjects().then((projects) => {
       commit(types.RECEIVE_PROJECTS, projects);
       if (state.selectedProject === null && projects.length > 0) {
-        let selectedProjectKey = localStorage.getItem('selectedProjectKey');
+        let selectedProjectKey = window.localStorage.getItem('selectedProjectKey');
         if (selectedProjectKey === null) {
           selectedProjectKey = projects[0].key;
         }
@@ -42,7 +42,7 @@ const actions = {
   setSelectedProject({ commit, dispatch }, projectKey) {
     const project = state.allProjects.find(item => item.key === projectKey);
     commit(types.SET_SELECTED_PROJECT, project);
-    localStorage.setItem('selectedProjectKey', projectKey);
+    window.localStorage.setItem('selectedProjectKey', projectKey);
     return dispatch('getAllVersions', projectKey);
   },
   getAllVersions({ commit }, projectKey) {

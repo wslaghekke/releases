@@ -22,7 +22,8 @@ class ProjectController extends AbstractAtlassianConnectController
      * @Route("/project")
      * @throws \Exception
      */
-    public function listAction() {
+    public function listAction()
+    {
         return $this->handleGetApi('/rest/api/2/project');
     }
 
@@ -37,6 +38,7 @@ class ProjectController extends AbstractAtlassianConnectController
     {
         try {
             $jwtRequest = new JWTRequest($this->getUser());
+
             return new JsonResponse($jwtRequest->get("/rest/api/2/project/$key/versions"));
         } catch (ClientException $e) {
             if ($e->getResponse()->getStatusCode() === 404) {

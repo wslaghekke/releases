@@ -33,17 +33,17 @@ abstract class AbstractAtlassianConnectController extends Controller
 
     /**
      * @param string       $endPoint
-     * @param string|array $data
+     * @param string|array $requestData
      * @return Response
      */
-    protected function handlePostApi(string $endPoint, $data): Response
+    protected function handlePostApi(string $endPoint, $requestData): Response
     {
         try {
-            if (is_string($data)) {
-                $data = json_decode($data);
+            if (is_string($requestData)) {
+                $requestData = json_decode($requestData);
             }
             $jwtRequest = new JWTRequest($this->getUser());
-            return new JsonResponse($jwtRequest->post($endPoint, $data));
+            return new JsonResponse($jwtRequest->post($endPoint, $requestData));
         } catch (ClientException $e) {
             return $this->handleClientException($e);
         }
@@ -51,17 +51,17 @@ abstract class AbstractAtlassianConnectController extends Controller
 
     /**
      * @param string $endPoint
-     * @param string|array $data
+     * @param string|array $requestData
      * @return Response
      */
-    protected function handlePutApi(string $endPoint, $data): Response
+    protected function handlePutApi(string $endPoint, $requestData): Response
     {
         try {
-            if (is_string($data)) {
-                $data = json_decode($data);
+            if (is_string($requestData)) {
+                $requestData = json_decode($requestData);
             }
             $jwtRequest = new JWTRequest($this->getUser());
-            return new JsonResponse($jwtRequest->put($endPoint, $data));
+            return new JsonResponse($jwtRequest->put($endPoint, $requestData));
         } catch (ClientException $e) {
             return $this->handleClientException($e);
         }
