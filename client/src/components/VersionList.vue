@@ -19,45 +19,72 @@
         <!--<th>TODO: TABLE_HANDLE</th>-->
         <td>{{ version.name }}</td>
         <td>
-          <aui-lozenge subtle :type="version.released ? 'success' : 'current'">
-            {{ version.released ? 'Released' : 'Unreleased' }}
-          </aui-lozenge>
+          <aui-lozenge v-if="version.archived" subtle>Archived</aui-lozenge>
+          <aui-lozenge v-else-if="version.released" subtle type="success">Released</aui-lozenge>
+          <aui-lozenge v-else subtle type="current">Unreleased</aui-lozenge>
         </td>
         <!--<td>TODO: Figure out if its possible to get issue progress data</td>-->
         <td>{{ version.startDate }}</td>
         <td>{{ version.releaseDate }}</td>
         <td>{{ version.description }}</td>
-        <td>
-          <a class="aui-button aui-button-subtle" v-on:click="deleteVersion(version)">
-            <span class="aui-icon aui-icon-small aui-iconfont-delete">Delete</span>
-          </a>
+        <td class="action-buttons">
+          <div class="aui-buttons">
+            <a class="aui-button aui-button" v-on:click="editVersion(version)" title="Edit">
+              <span class="aui-icon aui-icon-small aui-iconfont-edit">Edit</span>
+            </a>
+            <a class="aui-button aui-button" v-on:click="duplicateAndEditVersion(version)" title="Duplicate and Edit">
+              <span class="aui-icon aui-icon-small aui-iconfont-copy-clipboard"></span>
+            </a>
+            <a class="aui-button aui-button" v-on:click="releaseVersion(version)" title="Release">
+              <span class="aui-icon aui-icon-small aui-iconfont-approve">Release</span>
+            </a>
+            <a class="aui-button aui-button" v-on:click="deleteVersion(version)" title="Delete">
+              <span class="aui-icon aui-icon-small aui-iconfont-delete">Delete</span>
+            </a>
+          </div>
         </td>
       </tr>
       </tbody>
     </table>
     <version-delete-dialog ref="deleteDialog"></version-delete-dialog>
+    <version-edit-dialog ref="editDialog"></version-edit-dialog>
+    <version-release-dialog ref="releaseDialog"></version-release-dialog>
   </div>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
   import VersionCreateForm from './VersionCreateForm';
-  import VersionDeleteDialog from './VersionDeleteDialog';
+  import VersionDeleteDialog from './dialog/VersionDeleteDialog';
+  import VersionEditDialog from './dialog/VersionEditDialog';
+  import VersionReleaseDialog from './dialog/VersionReleaseDialog';
 
   export default {
     name: 'versionList',
     components: {
       VersionCreateForm,
       VersionDeleteDialog,
+      VersionEditDialog,
+      VersionReleaseDialog,
     },
     methods: {
       deleteVersion(version) {
         this.$refs.deleteDialog.deleteVersion(version);
       },
+      editVersion(version) {
+        this.$refs.editDialog.editVersion(version);
+      },
+      duplicateAndEditVersion(version) {
+        this.$refs.editDialog.duplicateAndEditVersion(version);
+      },
+      releaseVersion(version) {
+        this.$refs.releaseDialog.releaseVersion(version);
+      },
     },
-    computed: mapGetters({
-      versions: 'allVersions',
-    }),
+    computed: {
+      versions() {
+        return this.$store.state.allVersions.slice().reverse();
+      },
+    },
   };
 </script>
 
@@ -65,10 +92,23 @@
   .versions-table tr:first-child > th {
     border-top: none !important;
   }
-  @media(max-width: 810px) {
+
+  @media(max-width: 610px) {
     .versions-table {
       th:nth-child(2), td:nth-child(2),
       th:nth-child(5), td:nth-child(5) {
+        display: none;
+      }
+    }
+  }
+
+  .action-buttons {
+    min-width: 120px;
+  }
+  @media(max-width: 360px) {
+    .action-buttons {
+      min-width: 80px;
+      .aui-button:nth-child(2) {
         display: none;
       }
     }

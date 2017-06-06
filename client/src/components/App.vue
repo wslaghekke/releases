@@ -9,16 +9,23 @@
               <h1>Releases</h1>
             </div>
           </header>
-          <label>
-            Select project:
-            <aui-select2-single placeholder="Select project" :value="selected ? selected.key : undefined"
-                                @input="updateSelectedProject">
-              <aui-select2-option v-for="project in projects" :key="project.key" :value="project.key">{{ project.name
-                }}
-              </aui-select2-option>
-            </aui-select2-single>
-          </label>
-          <br><br><br>
+          <div class="field-group">
+            <label>
+              Select project:&nbsp;
+              <aui-select2-single placeholder="Select project" :value="selected ? selected.key : undefined"
+                                  @input="updateSelectedProject">
+                <aui-select2-option v-for="project in projects" :key="project.key" :value="project.key">{{ project.name
+                  }}
+                </aui-select2-option>
+              </aui-select2-single>
+            </label>
+            <label>Recent projects:</label>
+            <button v-for="project in recentProjects" class="aui-button aui-button-link"
+                    v-on:click="updateSelectedProject(project.key)">{{ project.name }}
+            </button>
+          </div>
+          <span v-if="selectedProjectChangePending" class="aui-icon aui-icon-wait">Loading...</span>
+          <br>
           <version-list></version-list>
         </section>
       </div>
@@ -36,13 +43,24 @@
     components: {
       VersionList,
     },
+    data() {
+      return {
+        selectedProjectChangePending: false,
+      };
+    },
     computed: mapGetters({
       projects: 'allProjects',
       selected: 'selectedProject',
+      recentProjects: 'recentProjects',
     }),
     methods: {
       updateSelectedProject(projectKey) {
-        this.$store.dispatch('setSelectedProject', projectKey);
+        this.selectedProjectChangePending = true;
+        this.$store.dispatch('setSelectedProject', projectKey).then(() => {
+          this.selectedProjectChangePending = false;
+        }, () => {
+          this.selectedProjectChangePending = false;
+        });
       },
     },
     created() {

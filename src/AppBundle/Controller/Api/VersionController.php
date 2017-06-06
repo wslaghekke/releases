@@ -44,4 +44,18 @@ class VersionController extends AbstractAtlassianConnectController
         return $this->handleDeleteApi("/rest/api/2/version/$id");
     }
 
+    /**
+     * @Route("/version/{id}", requirements={"id": "\d+"})
+     * @Method({"PUT"})
+     *
+     * @param $id
+     * @return Response
+     */
+    public function editAction(Request $request, $id)
+    {
+        $data = json_decode($request->getContent(), true);
+        unset($data['userReleaseDate'], $data['userStartDate']);
+        return $this->handlePutApi("/rest/api/2/version/$id", $data);
+    }
+
 }

@@ -2,29 +2,29 @@
   <form class="aui top-label releases-add-version" v-on:submit.prevent="onSubmit">
     <div id="add-version-fieldset">
       <div class="field-group">
-        <label for="version-name">Version name<span class="aui-icon icon-required"> required</span></label>
-        <input v-bind:disabled="versionCreatePending" id="version-name" class="text" type="text" v-model="versionName"
+        <label for="create-version-name">Version name<span class="aui-icon icon-required"> required</span></label>
+        <input v-bind:disabled="versionCreatePending" id="create-version-name" class="text" type="text" v-model="versionName"
                placeholder="Version name" required autofocus>
       </div>
       <div class="field-group">
-        <label for="start-date">Start date</label>
+        <label for="create-start-date">Start date</label>
         <div class="input-with-button">
-          <input v-bind:disabled="versionCreatePending" id="start-date" class="text" type="text"
+          <input v-bind:disabled="versionCreatePending" id="create-start-date" class="text" type="text"
                  v-model="versionStartDate">
           <a class="aui-button aui-button-primary" v-on:click="setStartDateToday">Today</a>
         </div>
       </div>
       <div class="field-group">
-        <label for="release-date">Release date</label>
+        <label for="create-release-date">Release date</label>
         <div class="input-with-button">
-          <input v-bind:disabled="versionCreatePending" id="release-date" class="text" type="text"
+          <input v-bind:disabled="versionCreatePending" id="create-release-date" class="text" type="text"
                  v-model="versionReleaseDate">
           <a class="aui-button aui-button-primary" v-on:click="setReleaseDateToday">Today</a>
         </div>
       </div>
       <div class="field-group">
-        <label for="version-description">Description</label>
-        <input v-bind:disabled="versionCreatePending" id="version-description" class="text" type="text"
+        <label for="create-version-description">Description</label>
+        <input v-bind:disabled="versionCreatePending" id="create-version-description" class="text" type="text"
                v-model="versionDescription">
       </div>
       <div id="button-group" class="field-group">
@@ -76,7 +76,7 @@
           this.versionReleaseDate = '';
           this.versionDescription = '';
           setTimeout(() => {
-            AJS.$('#version-name').focus();
+            AJS.$('#create-version-name').focus();
           }, 100);
         }, (error) => {
           this.versionCreatePending = false;
@@ -99,14 +99,14 @@
     mounted() {
       const vm = this;
       // eslint-disable-next-line
-      AJS.$('#start-date').datePicker({
+      AJS.$('#create-start-date').datePicker({
         overrideBrowserDefault: true,
         onSelect(dateText) {
           vm.versionStartDate = dateText;
         },
       });
       // eslint-disable-next-line
-      AJS.$('#release-date').datePicker({
+      AJS.$('#create-release-date').datePicker({
         overrideBrowserDefault: true,
         onSelect(dateText) {
           vm.versionReleaseDate = dateText;

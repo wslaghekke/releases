@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import VueAui from 'vue-aui';
 import axios from 'axios';
-// import VueAui from './components/aui/VueAui';
 import App from './components/App';
 import store from './store';
 
@@ -18,7 +17,6 @@ new Promise((resolve, reject) => {
     reject(error);
   });
 }).then((key) => {
-  console.log(key);
   axios.defaults.headers.common.Authorization = `Bearer ${key}`;
   /* eslint-disable no-new */
   new Vue({
@@ -26,8 +24,7 @@ new Promise((resolve, reject) => {
     store,
     render: h => h(App),
   });
-}, (error) => {
-  console.log(error);
+}, () => {
   const errorElem = document.createElement('h1');
   errorElem.innerText = 'Failed to retrieve apiKey';
   document.body.appendChild(errorElem);

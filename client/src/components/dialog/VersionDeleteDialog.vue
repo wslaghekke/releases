@@ -11,7 +11,7 @@
     </div>
     <footer class="aui-dialog2-footer">
       <div class="aui-dialog2-footer-actions">
-        <button style="min-width: 50px" class="aui-button aui-button-primary" v-on:click="confirmDelete">
+        <button class="aui-button aui-button-primary" v-on:click="confirmDelete">
           Yes
         </button>
         <button class="aui-button aui-button-link" v-on:click="cancelDelete">Cancel</button>
@@ -23,7 +23,7 @@
 <script>
   /* global AJS */
   export default {
-    name: 'versionList',
+    name: 'VersionDeleteDialog',
     data() {
       return {
         deleteConfirmVersion: null,

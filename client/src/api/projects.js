@@ -23,9 +23,14 @@ function deleteVersion(id) {
   return axios.delete(`/api/version/${id}`).then(response => response.data);
 }
 
+function editVersion(versionData) {
+  return axios.put(`/api/version/${versionData.id}`, versionData).then(response => response.data);
+}
+
 export default {
   getProjects,
   getVersions,
   createVersion,
   deleteVersion,
+  editVersion,
 };

@@ -1,12 +1,1 @@
-{
-    "vendor": {
-        "js": "/static/js/vendor.3d2f6014c9ca6b2b1819.js"
-    },
-    "app": {
-        "js": "/static/js/app.4146e9d1f634aaf346a6.js",
-        "css": "/static/css/app.d838516ae4fcb08fe83c1f92b6a4d135.css"
-    },
-    "manifest": {
-        "js": "/static/js/manifest.31cdfb00c521afc67c7f.js"
-    }
-}
+{"vendor":{"js":"/static/js/vendor.b34e5c265ca3796680b2.js"},"app":{"js":"/static/js/app.b03f8b92cb9025da9883.js","css":"/static/css/app.b17a23b1538851f5a6442579ffa4c5e1.css"},"manifest":{"js":"/static/js/manifest.d42d2f05a5a07c320fff.js"}}
