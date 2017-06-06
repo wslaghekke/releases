@@ -39,7 +39,7 @@ abstract class AbstractAtlassianConnectController extends Controller
     protected function handlePostApi(string $endPoint, $data): Response
     {
         try {
-            if(is_string($data)) {
+            if (is_string($data)) {
                 $data = json_decode($data);
             }
             $jwtRequest = new JWTRequest($this->getUser());
@@ -57,7 +57,7 @@ abstract class AbstractAtlassianConnectController extends Controller
     protected function handlePutApi(string $endPoint, $data): Response
     {
         try {
-            if(is_string($data)) {
+            if (is_string($data)) {
                 $data = json_decode($data);
             }
             $jwtRequest = new JWTRequest($this->getUser());

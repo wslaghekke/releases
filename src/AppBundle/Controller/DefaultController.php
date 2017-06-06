@@ -36,7 +36,7 @@ class DefaultController extends Controller
      */
     public function devApiKeyAction()
     {
-        if($this->get('kernel')->isDebug()) {
+        if ($this->get('kernel')->isDebug()) {
             return new Response($this->get('lexik_jwt_authentication.jwt_manager')->create($this->getUser()), 200);
         }
 
