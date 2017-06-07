@@ -1,5 +1,5 @@
 before_commands:
-    - 'composer install --no-interaction --no-scripts'
+    - 'composer install --no-interaction'
 
 tools:
     php_mess_detector:
