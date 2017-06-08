@@ -23,21 +23,36 @@ class DefaultController extends Controller
         $assets = json_decode(file_get_contents(__DIR__.'/../../../assets.json'), true);
         $response = new Response();
         $response->headers->set('Referrer-Policy', 'no-referrer');
-        return $this->render('@App/Default/index.html.twig', [
-            'assets' => $assets,
-            'jwt' => $this->get('lexik_jwt_authentication.jwt_manager')->create($this->getUser())
-        ], $response);
+
+        return $this->render(
+            '@App/Default/index.html.twig',
+            [
+                'assets' => $assets,
+                'jwt' => $this->get('lexik_jwt_authentication.jwt_manager')->create($this->getUser()),
+            ],
+            $response
+        );
     }
 
     /**
-     * @Route("/protected/dev-api-key")
+     * @Route("/protected/dev-environment")
      * @return Response
+     * @throws \InvalidArgumentException
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function devApiKeyAction()
+    public function devEnvironmentAction()
     {
         if ($this->get('kernel')->isDebug()) {
-            return new Response($this->get('lexik_jwt_authentication.jwt_manager')->create($this->getUser()), 200);
+            return new Response(
+                json_encode(
+                    [
+                        'api_key' => $this->get('lexik_jwt_authentication.jwt_manager')->create($this->getUser()),
+                        'base_url' => $this->getUser()->getBaseUrl(),
+                    ]
+                ), 200, [
+                    'Content-Type' => 'application/json',
+                ]
+            );
         }
 
         throw new NotFoundHttpException();

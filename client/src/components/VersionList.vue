@@ -17,7 +17,7 @@
       <tbody>
       <tr v-for="version in versions" :key="version.id">
         <!--<th>TODO: TABLE_HANDLE</th>-->
-        <td>{{ version.name }}</td>
+        <td><a target="_blank" v-bind:href="getIssueUrl(version.id)">{{ version.name }}</a></td>
         <td>
           <aui-lozenge v-if="version.archived" subtle>Archived</aui-lozenge>
           <aui-lozenge v-else-if="version.released" subtle type="success">Released</aui-lozenge>
@@ -79,10 +79,16 @@
       releaseVersion(version) {
         this.$refs.releaseDialog.releaseVersion(version);
       },
+      getIssueUrl(versionId) {
+        return `${window.baseUrl}/browse/${this.selectedProject.key}/fixforversion/${versionId}`;
+      },
     },
     computed: {
       versions() {
         return this.$store.state.allVersions.slice().reverse();
+      },
+      selectedProject() {
+        return this.$store.state.selectedProject;
       },
     },
   };
