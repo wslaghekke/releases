@@ -19,8 +19,8 @@
       </div>
       <footer class="aui-dialog2-footer">
         <div class="aui-dialog2-footer-actions">
-          <button class="aui-button aui-button-primary" type="submit">Save</button>
-          <button class="aui-button aui-button-link" v-on:click="cancel">Cancel</button>
+          <button type="submit" class="aui-button aui-button-primary">Save</button>
+          <button type="button" class="aui-button aui-button-link" v-on:click="cancel">Cancel</button>
         </div>
       </footer>
     </form>
