@@ -55,7 +55,7 @@
     data() {
       return {
         versionName: '',
-        versionStartDate: '',
+        versionStartDate: getFormattedDate(new Date()),
         versionReleaseDate: '',
         versionDescription: '',
         versionCreatePending: false,
@@ -72,7 +72,7 @@
         }).then(() => {
           this.versionCreatePending = false;
           this.versionName = '';
-          this.versionStartDate = '';
+          this.versionStartDate = getFormattedDate(new Date());
           this.versionReleaseDate = '';
           this.versionDescription = '';
           setTimeout(() => {
