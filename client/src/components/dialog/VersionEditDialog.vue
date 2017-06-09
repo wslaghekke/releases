@@ -39,8 +39,8 @@
       </div>
       <footer class="aui-dialog2-footer">
         <div class="aui-dialog2-footer-actions">
-          <button class="aui-button aui-button-primary" type="submit">Save</button>
-          <button class="aui-button aui-button-link" v-on:click="cancel">Cancel</button>
+          <button type="submit" class="aui-button aui-button-primary">Save</button>
+          <button type="button" class="aui-button aui-button-link" v-on:click="cancel">Cancel</button>
         </div>
       </footer>
     </form>
@@ -94,10 +94,10 @@
         this.duplicateVersion = {
           name: version.name,
           description: version.description,
-          startDate: version.startDate,
-          releaseDate: version.releaseDate,
-          released: version.released,
-          archived: version.archived,
+          startDate: getFormattedDate(new Date()),
+          releaseDate: '',
+          released: false,
+          archived: false,
         };
         this.editVersion(version);
       },
@@ -111,6 +111,9 @@
         AJS.dialog2('#version-edit-dialog').hide();
         this.$store.dispatch('editVersion', Object.assign({}, this.version)).then(() => {
           if (this.duplicateVersion !== null) {
+            if (this.version.releaseDate !== '') {
+              this.duplicateVersion.startDate = this.version.releaseDate;
+            }
             this.$store.dispatch('createVersion', this.duplicateVersion).catch((error) => {
               AJS.messages.error({
                 title: 'Error duplicating version.',
@@ -135,14 +138,14 @@
       AJS.$('#edit-start-date').datePicker({
         overrideBrowserDefault: true,
         onSelect(dateText) {
-          vm.versionStartDate = dateText;
+          vm.version.startDate = dateText;
         },
       });
       // eslint-disable-next-line
       AJS.$('#edit-release-date').datePicker({
         overrideBrowserDefault: true,
         onSelect(dateText) {
-          vm.versionReleaseDate = dateText;
+          vm.version.releaseDate = dateText;
         },
       });
     },

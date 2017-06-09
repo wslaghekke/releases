@@ -75,4 +75,8 @@
 </script>
 
 <style>
+  /*Make sure datepicker has higher Z-index than edit dialog*/
+  .aui-datepicker-dialog {
+    z-index: 3001;
+  }
 </style>
