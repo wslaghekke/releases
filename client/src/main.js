@@ -11,8 +11,9 @@ new Promise((resolve, reject) => {
   if (window.apiKey !== undefined) {
     resolve(window.apiKey);
   }
-  return axios.get('/protected/dev-api-key').then((response) => {
-    resolve(response.data);
+  return axios.get('/protected/dev-environment').then((response) => {
+    window.baseUrl = response.data.base_url;
+    resolve(response.data.api_key);
   }, (error) => {
     reject(error);
   });

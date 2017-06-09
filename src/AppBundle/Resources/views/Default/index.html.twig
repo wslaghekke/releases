@@ -4,7 +4,10 @@
     <meta charset=utf-8>
     <title>releases-client</title>
     <meta name=viewport content="width=device-width,initial-scale=1">
-    <script>window.apiKey = '{{ jwt }}'</script>
+    <script>
+      window.apiKey = '{{ jwt }}';
+      window.baseUrl = '{{ app.user.baseUrl }}';
+    </script>
     <link rel=stylesheet href=//aui-cdn.atlassian.com/aui-adg/6.0.3/css/aui.min.css media=all>
     <link rel=stylesheet href=//aui-cdn.atlassian.com/aui-adg/6.0.3/css/aui-experimental.min.css media=all>
     <link href="{{ assets.app.css }}" rel="stylesheet">
@@ -20,15 +23,15 @@
 <script src="{{ assets.vendor.js }}"></script>
 <script src="{{ assets.app.js }}"></script>
 <script id="connect-loader" data-options="sizeToParent:true;">
-    (function() {
-        var options = document.getElementById('connect-loader').getAttribute('data-options');
-        var script = document.createElement("script");
-        script.src = '{{ app.user.baseUrl }}{{ app.debug ? '/atlassian-connect/all-debug.js' : '/atlassian-connect/all.js' }}';
-        if(options) {
-            script.setAttribute('data-options', options);
-        }
-        document.getElementsByTagName("body")[0].appendChild(script);
-    })();
+  (function () {
+    var options = document.getElementById('connect-loader').getAttribute('data-options');
+    var script = document.createElement("script");
+    script.src = '{{ app.user.baseUrl }}{{ app.debug ? '/atlassian-connect/all-debug.js' : '/atlassian-connect/all.js' }}';
+    if (options) {
+      script.setAttribute('data-options', options);
+    }
+    document.getElementsByTagName("body")[0].appendChild(script);
+  })();
 </script>
 </body>
 </html>
