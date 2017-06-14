@@ -25,7 +25,13 @@ bin/console d:m:m
 ```
 
 Run commands develop:
+
+Symfony:
 ```bash
-npm run dev
 bin/console server:run
+```
+Client:
+```bash
+cd client/
+npm run dev
 ```
