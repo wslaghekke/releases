@@ -49,17 +49,7 @@
 
 <script>
   /* global AJS */
-  const getFormattedDate = (date) => {
-    let month = date.getMonth();
-    if (month < 10) {
-      month = `0${month}`;
-    }
-    let day = date.getDate();
-    if (day < 10) {
-      day = `0${day}`;
-    }
-    return `${date.getFullYear()}-${month}-${day}`;
-  };
+  import * as moment from 'moment';
 
   export default {
     name: 'VersionEditDialog',
@@ -94,7 +84,7 @@
         this.duplicateVersion = {
           name: version.name,
           description: version.description,
-          startDate: getFormattedDate(new Date()),
+          startDate: moment().format('YYYY-MM-DD'),
           releaseDate: '',
           released: false,
           archived: false,
@@ -102,10 +92,10 @@
         this.editVersion(version);
       },
       setStartDateToday() {
-        this.version.startDate = getFormattedDate(new Date());
+        this.version.startDate = moment().format('YYYY-MM-DD');
       },
       setReleaseDateToday() {
-        this.version.releaseDate = getFormattedDate(new Date());
+        this.version.releaseDate = moment().format('YYYY-MM-DD');
       },
       onSubmit() {
         AJS.dialog2('#version-edit-dialog').hide();

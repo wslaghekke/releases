@@ -13,6 +13,7 @@
   "dependencies": {
     "@types/whatwg-fetch": "^0.0.33",
     "axios": "^0.16.1",
+    "moment": "^2.18.1",
     "node-sass": "^4.5.3",
     "sass-loader": "^6.0.5",
     "vue": "^2.3.3",
