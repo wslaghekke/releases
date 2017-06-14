@@ -36,26 +36,16 @@
 
 <script>
   /* global AJS */
+  import * as moment from 'moment';
   import util from '../util';
 
-  const getFormattedDate = (date) => {
-    let month = date.getMonth();
-    if (month < 10) {
-      month = `0${month}`;
-    }
-    let day = date.getDate();
-    if (day < 10) {
-      day = `0${day}`;
-    }
-    return `${date.getFullYear()}-${month}-${day}`;
-  };
 
   export default {
     name: 'versionList',
     data() {
       return {
         versionName: '',
-        versionStartDate: getFormattedDate(new Date()),
+        versionStartDate: moment().format('YYYY-MM-DD'),
         versionReleaseDate: '',
         versionDescription: '',
         versionCreatePending: false,
@@ -72,7 +62,7 @@
         }).then(() => {
           this.versionCreatePending = false;
           this.versionName = '';
-          this.versionStartDate = getFormattedDate(new Date());
+          this.versionStartDate = moment().format('YYYY-MM-DD');
           this.versionReleaseDate = '';
           this.versionDescription = '';
           setTimeout(() => {
@@ -87,10 +77,10 @@
         });
       },
       setStartDateToday() {
-        this.versionStartDate = getFormattedDate(new Date());
+        this.versionStartDate = moment().format('YYYY-MM-DD');
       },
       setReleaseDateToday() {
-        this.versionReleaseDate = getFormattedDate(new Date());
+        this.versionReleaseDate = moment().format('YYYY-MM-DD');
       },
       cancelDelete() {
         AJS.dialog2('#delete-confirm-dialog').hide();

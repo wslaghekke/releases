@@ -29,17 +29,7 @@
 
 <script>
   /* global AJS */
-  const getFormattedDate = (date) => {
-    let month = date.getMonth();
-    if (month < 10) {
-      month = `0${month}`;
-    }
-    let day = date.getDate();
-    if (day < 10) {
-      day = `0${day}`;
-    }
-    return `${date.getFullYear()}-${month}-${day}`;
-  };
+  import * as moment from 'moment';
 
   export default {
     name: 'VersionReleaseDialog',
@@ -77,7 +67,7 @@
         }
       },
       setReleaseDateToday() {
-        this.version.releaseDate = getFormattedDate(new Date());
+        this.version.releaseDate = moment().format('YYYY-MM-DD');
       },
       onSubmit() {
         AJS.dialog2('#version-release-dialog').hide();
