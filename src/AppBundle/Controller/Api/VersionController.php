@@ -26,7 +26,7 @@ class VersionController extends AbstractAtlassianConnectController
     public function createAction(Request $request)
     {
         $response = $this->handlePostApi('/rest/api/2/version', $request->getContent());
-        if($response->isSuccessful()) {
+        if ($response->isSuccessful()) {
             $this->get('app.pusher_service')->publishTenantEvent(
                 $this->getUser(),
                 TenantEvents::CREATE_VERSION,
@@ -34,6 +34,7 @@ class VersionController extends AbstractAtlassianConnectController
                 $request->headers->get('Socket-Id')
             );
         }
+
         return $response;
     }
 
@@ -47,7 +48,7 @@ class VersionController extends AbstractAtlassianConnectController
     public function deleteAction(Request $request, $id)
     {
         $response = $this->handleDeleteApi("/rest/api/2/version/$id");
-        if($response->isSuccessful()) {
+        if ($response->isSuccessful()) {
             $this->get('app.pusher_service')->publishTenantEvent(
                 $this->getUser(),
                 TenantEvents::DELETE_VERSION,
@@ -55,6 +56,7 @@ class VersionController extends AbstractAtlassianConnectController
                 $request->headers->get('Socket-Id')
             );
         }
+
         return $response;
     }
 
@@ -70,7 +72,7 @@ class VersionController extends AbstractAtlassianConnectController
         $data = json_decode($request->getContent(), true);
         unset($data['userReleaseDate'], $data['userStartDate']);
         $response = $this->handlePutApi("/rest/api/2/version/$id", $data);
-        if($response->isSuccessful()) {
+        if ($response->isSuccessful()) {
             $this->get('app.pusher_service')->publishTenantEvent(
                 $this->getUser(),
                 TenantEvents::UPDATE_VERSION,
@@ -78,6 +80,7 @@ class VersionController extends AbstractAtlassianConnectController
                 $request->headers->get('Socket-Id')
             );
         }
+
         return $response;
     }
 

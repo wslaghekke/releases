@@ -35,6 +35,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("/protected/releases-home", name="homepage")
+     * @return Response
      * @throws \Exception
      */
     public function indexAction()
@@ -61,7 +62,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("/protected/dev-environment")
-     * @return Response
+     * @return JsonResponse
      * @throws \InvalidArgumentException
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */

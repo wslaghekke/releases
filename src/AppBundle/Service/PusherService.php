@@ -19,34 +19,34 @@ class PusherService
     /** @var Pusher|null */
     protected $pusher;
 
-    public function __construct(LoggerInterface $logger, $app_key, $app_secret, $app_id, $options)
+    public function __construct(LoggerInterface $logger, $appKey, $appSecret, $appId, $options)
     {
-        if ($app_key === null || $app_secret === null || $app_id === null) {
+        if ($appKey === null || $appSecret === null || $appId === null) {
             $logger->debug('pusher key,secret or id are null, disabling pusher');
             $this->pusher = null;
         } else {
             $this->pusher = new Pusher(
-                $app_key,
-                $app_secret,
-                $app_id,
+                $appKey,
+                $appSecret,
+                $appId,
                 $options
             );
         }
     }
 
     /**
-     * @param string $channel
-     * @param string $socket_id
-     * @param string|null $custom_data
+     * @param string      $channel
+     * @param string      $socketId
+     * @param string|null $customData
      * @return null|string
      */
-    public function createSocketSignature($channel, $socket_id, $custom_data = null)
+    public function createSocketSignature($channel, $socketId, $customData = null)
     {
         if ($this->pusher === null) {
             return null;
         }
 
-        return $this->pusher->socket_auth($channel, $socket_id, $custom_data);
+        return $this->pusher->socket_auth($channel, $socketId, $customData);
     }
 
     /**
@@ -66,12 +66,12 @@ class PusherService
 
     /**
      * @param Tenant $tenant
-     * @param string $event_name
+     * @param string $eventName
      * @param string $payload
-     * @param string $exclude_socket_id
+     * @param string $excludeSocketId
      * @return array|bool
      */
-    public function publishTenantEvent(Tenant $tenant, $event_name, $payload, $exclude_socket_id = null)
+    public function publishTenantEvent(Tenant $tenant, $eventName, $payload, $excludeSocketId = null)
     {
         if ($this->pusher === null) {
             return false;
@@ -79,9 +79,9 @@ class PusherService
 
         return $this->pusher->trigger(
             'private-tenant-'.$tenant->getId(),
-            $event_name,
+            $eventName,
             $payload,
-            $exclude_socket_id,
+            $excludeSocketId,
             false,
             true
         );

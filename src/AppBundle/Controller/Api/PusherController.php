@@ -31,11 +31,11 @@ class PusherController extends Controller
         $pusherService = $this->get('app.pusher_service');
         /** @var Tenant $tenant */
         $tenant = $this->getUser();
-        $channel_name = $request->request->get('channel_name');
-        $socket_id = $request->request->get('socket_id');
+        $channelName = $request->request->get('channel_name');
+        $socketId = $request->request->get('socket_id');
 
-        if ($tenant !== null && $pusherService->hasChannelAccess($tenant, $channel_name)) {
-            return new JsonResponse($pusherService->createSocketSignature($channel_name, $socket_id), 200, [], true);
+        if ($tenant !== null && $pusherService->hasChannelAccess($tenant, $channelName)) {
+            return new JsonResponse($pusherService->createSocketSignature($channelName, $socketId), 200, [], true);
         }
 
         throw new AccessDeniedHttpException();
