@@ -23,3 +23,15 @@ Other install commands:
 composer install
 bin/console d:m:m
 ```
+
+Run commands develop:
+
+Symfony:
+```bash
+bin/console server:run
+```
+Client:
+```bash
+cd client/
+npm run dev
+```
