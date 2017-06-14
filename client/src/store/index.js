@@ -92,11 +92,13 @@ const mutations = {
   },
   [types.SET_SELECTED_PROJECT](paramState, project) {
     paramState.selectedProject = project;
-    let index = paramState.recentProjects.findIndex(item => item.id === project.id);
-    if (project && index === -1) { // If it's not in recentProjects put it in recentProjects.
+    const index = paramState.recentProjects.findIndex(item => item.id === project.id);
+    if (project && index === -1) {
+      // If it's not in recentProjects put it in recentProjects.
       paramState.recentProjects.unshift(project);
       window.localStorage.setItem('recentProjects', JSON.stringify(paramState.recentProjects));
-    } else if (project && index !== -1 && index !== 0) { // if it's in recentProjects and it's not on first then put it in first.
+    } else if (project && index !== -1 && index !== 0) {
+      // if it's in recentProjects and it's not on first then put it in first.
       if (index > -1) {
         paramState.recentProjects.splice(index, 1);
       }
