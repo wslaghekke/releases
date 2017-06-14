@@ -23,3 +23,9 @@ Other install commands:
 composer install
 bin/console d:m:m
 ```
+
+Run commands develop:
+```bash
+npm run dev
+bin/console server:run
+```
