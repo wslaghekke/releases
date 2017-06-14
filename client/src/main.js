@@ -1,24 +1,26 @@
 import Vue from 'vue';
 import VueAui from 'vue-aui';
 import axios from 'axios';
-import App from './components/App';
+import { getAppConfiguration } from './util';
 import store from './store';
+import pusher from './pusher';
+import App from './components/App';
 
 Vue.config.productionTip = false;
 Vue.use(VueAui);
 
-new Promise((resolve, reject) => {
-  if (window.apiKey !== undefined) {
-    resolve(window.apiKey);
+getAppConfiguration().then((appConfig) => {
+  window.baseUrl = appConfig.base_url;
+  axios.defaults.headers.common.Authorization = `Bearer ${appConfig.api_key}`;
+  if (appConfig.pusher_api_key !== null) {
+    pusher.initialize(
+      appConfig.pusher_api_key,
+      appConfig.pusher_config,
+      appConfig.api_key,
+      appConfig.tenant_id,
+    );
   }
-  return axios.get('/protected/dev-environment').then((response) => {
-    window.baseUrl = response.data.base_url;
-    resolve(response.data.api_key);
-  }, (error) => {
-    reject(error);
-  });
-}).then((key) => {
-  axios.defaults.headers.common.Authorization = `Bearer ${key}`;
+
   /* eslint-disable no-new */
   new Vue({
     el: '#app',

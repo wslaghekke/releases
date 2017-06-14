@@ -4,6 +4,21 @@ parameters:
     #parameter_name: value
 
 services:
-    #service_name:
-    #    class: AppBundle\Directory\ClassName
-    #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
+    app.event.jwt_created_listener:
+        class: AppBundle\EventListener\JWTCreatedListener
+        arguments: [ '@security.token_storage' ]
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+    app.event.jwt_authenticated_listener:
+        class: AppBundle\EventListener\JWTAuthenticatedListener
+        arguments: [ '@security.token_storage' ]
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_authenticated, method: onJWTAuthenticated }
+    app.pusher_service:
+        class: AppBundle\Service\PusherService
+        arguments:
+            - '@logger'
+            - '%pusher_app_key%'
+            - '%pusher_app_secret%'
+            - '%pusher_app_id%'
+            - { cluster: '%pusher_cluster%', encrypted: '%pusher_encrypted%' }

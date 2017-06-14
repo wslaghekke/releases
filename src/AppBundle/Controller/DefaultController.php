@@ -3,14 +3,36 @@
 namespace AppBundle\Controller;
 
 use AtlassianConnectBundle\Entity\Tenant;
+use Pusher;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DefaultController extends Controller
 {
+    protected function getEnvironmentConfig()
+    {
+        return [
+            'tenant_id'      => $this->getUser()->getId(),
+            'api_key'        => $this->get('lexik_jwt_authentication.jwt_manager')->create($this->getUser()),
+            'base_url'       => $this->getUser()->getBaseUrl(),
+            'pusher_api_key' => $this->getParameter('pusher_app_key'),
+            'pusher_config'  => [
+                'cluster'      => $this->getParameter('pusher_cluster'),
+                'encrypted'    => $this->getParameter('pusher_encrypted'),
+                'authEndpoint' => $this->generateUrl('app_api_pusher_authenticate'),
+                'auth'         => [
+                    'headers' => [
+                        'Authorization' => null,
+                    ],
+                ],
+            ],
+        ];
+    }
+
     /**
      * @Route("/protected/releases-home", name="homepage")
      * @throws \Exception
@@ -19,7 +41,7 @@ class DefaultController extends Controller
     {
         /** @var Tenant $user */
         $user = $this->getUser();
-        if($user->getUsername() === null) {
+        if ($user->getUsername() === null) {
             throw new AccessDeniedHttpException('Unknown user');
         }
 
@@ -31,7 +53,7 @@ class DefaultController extends Controller
             '@App/Default/index.html.twig',
             [
                 'assets' => $assets,
-                'jwt' => $this->get('lexik_jwt_authentication.jwt_manager')->create($this->getUser()),
+                'config' => $this->getEnvironmentConfig(),
             ],
             $response
         );
@@ -45,19 +67,10 @@ class DefaultController extends Controller
      */
     public function devEnvironmentAction()
     {
-        if ($this->get('kernel')->isDebug()) {
-            return new Response(
-                json_encode(
-                    [
-                        'api_key' => $this->get('lexik_jwt_authentication.jwt_manager')->create($this->getUser()),
-                        'base_url' => $this->getUser()->getBaseUrl(),
-                    ]
-                ), 200, [
-                    'Content-Type' => 'application/json',
-                ]
-            );
+        if (!$this->get('kernel')->isDebug()) {
+            throw new NotFoundHttpException();
         }
 
-        throw new NotFoundHttpException();
+        return new JsonResponse($this->getEnvironmentConfig());
     }
 }
