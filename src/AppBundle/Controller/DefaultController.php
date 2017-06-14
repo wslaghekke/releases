@@ -2,14 +2,11 @@
 
 namespace AppBundle\Controller;
 
-use AtlassianConnectBundle\Model\JWTRequest;
-use GuzzleHttp\Exception\ClientException;
+use AtlassianConnectBundle\Entity\Tenant;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DefaultController extends Controller
@@ -20,6 +17,12 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        /** @var Tenant $user */
+        $user = $this->getUser();
+        if($user->getUsername() === null) {
+            throw new AccessDeniedHttpException('Unknown user');
+        }
+
         $assets = json_decode(file_get_contents(__DIR__.'/../../../assets.json'), true);
         $response = new Response();
         $response->headers->set('Referrer-Policy', 'no-referrer');
