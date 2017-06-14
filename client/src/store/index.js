@@ -92,8 +92,14 @@ const mutations = {
   },
   [types.SET_SELECTED_PROJECT](paramState, project) {
     paramState.selectedProject = project;
-    if (project && paramState.recentProjects.findIndex(item => item.id === project.id) === -1) {
-      paramState.recentProjects.push(project);
+    if (project !== null) {
+      // If project is already in recentProjects
+      const index = paramState.recentProjects.findIndex(item => item.id === project.id);
+      if (index > -1) {
+        paramState.recentProjects.splice(index, 1);
+      }
+      // Add project to start of recentProjects
+      paramState.recentProjects.unshift(project);
       window.localStorage.setItem('recentProjects', JSON.stringify(paramState.recentProjects));
     }
   },
