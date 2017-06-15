@@ -57,7 +57,7 @@ class PusherService
     public function hasChannelAccess(Tenant $tenant, $channel)
     {
         if (preg_match('/private-tenant-(\d+)/', $channel, $matches)) {
-            return (int)$matches[1] === $tenant->getId();
+            return (int) $matches[1] === $tenant->getId();
         }
         $this->logger->error("Invalid or unsupported channel-name: $channel");
 
