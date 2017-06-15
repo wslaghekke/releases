@@ -18,14 +18,20 @@ export default {
 
     const channel = pusher.subscribe(`private-tenant-${tenantId}`);
     channel.bind(tenantEvents.CREATE_VERSION, (data) => {
-      store.commit(mutationTypes.RECEIVE_VERSION, data);
+      if (store.state.selectedProject.id === data.projectId) {
+        store.commit(mutationTypes.RECEIVE_VERSION, data);
+      }
     });
     channel.bind(tenantEvents.UPDATE_VERSION, (data) => {
-      store.commit(mutationTypes.REPLACE_VERSION, data);
+      if (store.state.selectedProject.id === data.projectId) {
+        store.commit(mutationTypes.REPLACE_VERSION, data);
+      }
     });
     channel.bind(tenantEvents.DELETE_VERSION, (data) => {
       const version = store.state.allVersions.find(item => item.id === data.id);
-      store.commit(mutationTypes.DELETE_VERSION, version);
+      if (store.state.selectedProject.id === version.projectId) {
+        store.commit(mutationTypes.DELETE_VERSION, version);
+      }
     });
   },
 };
