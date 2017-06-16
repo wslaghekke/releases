@@ -32,3 +32,5 @@ parameters:
     pusher_app_id: ~
     pusher_app_key: ~
     pusher_app_secret: ~
+
+    sentry_dsn: ~

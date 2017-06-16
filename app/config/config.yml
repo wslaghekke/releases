@@ -101,3 +101,6 @@ lexik_jwt_authentication:
     pass_phrase:      '%jwt_key_pass_phrase%'
     token_ttl:        '%jwt_token_ttl%'
     user_identity_field: 'clientKey'
+
+sentry:
+    dsn: '%sentry_dsn%'

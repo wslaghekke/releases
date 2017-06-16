@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new \Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new \Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
             new \AtlassianConnectBundle\AtlassianConnectBundle(),
+            new \Sentry\SentryBundle\SentryBundle(),
             new AppBundle\AppBundle(),
         ];
 
