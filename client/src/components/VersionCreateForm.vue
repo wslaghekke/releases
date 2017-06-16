@@ -37,7 +37,7 @@
 <script>
   /* global AJS */
   import * as moment from 'moment';
-  import util from '../util';
+  import { formatErrorResponse } from '../util';
 
 
   export default {
@@ -72,7 +72,7 @@
           this.versionCreatePending = false;
           AJS.messages.error({
             title: 'Error creating version.',
-            body: util.formatErrorResponse(error.response.data),
+            body: formatErrorResponse(error.response.data),
           });
         });
       },

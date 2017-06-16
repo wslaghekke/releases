@@ -26,3 +26,9 @@ parameters:
     dev_tenant_id: ~
     dev_baseurl: 'http://localhost/'
     baseurl: 'https://releases.bytefusion.nl/'
+
+    pusher_cluster: eu
+    pusher_encrypted: true
+    pusher_app_id: ~
+    pusher_app_key: ~
+    pusher_app_secret: ~

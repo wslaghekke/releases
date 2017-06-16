@@ -5,8 +5,7 @@
     <title>releases-client</title>
     <meta name=viewport content="width=device-width,initial-scale=1">
     <script>
-      window.apiKey = '{{ jwt }}';
-      window.baseUrl = '{{ app.user.baseUrl }}';
+      window.appConfiguration = '{{ config|json_encode }}';
     </script>
     <link rel=stylesheet href=//aui-cdn.atlassian.com/aui-adg/6.0.3/css/aui.min.css media=all>
     <link rel=stylesheet href=//aui-cdn.atlassian.com/aui-adg/6.0.3/css/aui-experimental.min.css media=all>
