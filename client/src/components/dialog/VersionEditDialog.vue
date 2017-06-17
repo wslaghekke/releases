@@ -29,6 +29,11 @@
           </div>
         </div>
         <div class="field-group">
+          <aui-toggle-button v-model="version.versionTst" id="edit-version-tst" label="TST"></aui-toggle-button>
+          <aui-toggle-button v-model="version.versionAcc" id="edit-version-acc" label="ACC"></aui-toggle-button>
+          <aui-toggle-button v-model="version.versionProd" id="edit-version-prod" label="PROD"></aui-toggle-button>
+        </div>
+        <div class="field-group">
           <label for="edit-version-description">Description</label>
           <input id="edit-version-description" class="text" type="text" v-model="version.description">
         </div>
@@ -60,6 +65,9 @@
           name: '',
           startDate: '',
           releaseDate: '',
+          versionTst: false,
+          versionAcc: false,
+          versionProd: false,
           description: '',
           released: false,
           archived: false,
@@ -71,13 +79,26 @@
         this.version.name = '';
         this.version.startDate = '';
         this.version.releaseDate = '';
+        this.version.versionTst = false;
+        this.version.versionAcc = false;
+        this.version.versionProd = false;
         this.version.description = '';
         this.version.released = false;
         this.version.archived = false;
       },
       editVersion(version) {
         this.resetData();
-        this.version = Object.assign(this.version, version);
+        const tempVersion = Object.assign({}, version);
+        const regexp = /^(TST,? ?)?(ACC,? ?)?(PROD ?)?(.*)?/;
+        if (undefined !== tempVersion.description) {
+          const [, descriptionResultTst, descriptionResultAcc, descriptionResultProd,
+            descriptionResultDescription] = tempVersion.description.match(regexp);
+          tempVersion.versionTst = (undefined !== descriptionResultTst);
+          tempVersion.versionAcc = (undefined !== descriptionResultAcc);
+          tempVersion.versionProd = (undefined !== descriptionResultProd);
+          tempVersion.description = (undefined !== descriptionResultDescription) ? descriptionResultDescription : '';
+        }
+        this.version = Object.assign(this.version, tempVersion);
         AJS.dialog2('#version-edit-dialog').show();
       },
       duplicateAndEditVersion(version) {
@@ -99,6 +120,15 @@
       },
       onSubmit() {
         AJS.dialog2('#version-edit-dialog').hide();
+        let descriptionString = '';
+        descriptionString += this.version.versionTst ? 'TST ' : '';
+        descriptionString += this.version.versionAcc ? 'ACC ' : '';
+        descriptionString += this.version.versionProd ? 'PROD ' : '';
+        descriptionString += this.version.description;
+        delete this.version.versionTst;
+        delete this.version.versionAcc;
+        delete this.version.versionProd;
+        this.version.description = descriptionString;
         this.$store.dispatch('editVersion', Object.assign({}, this.version)).then(() => {
           if (this.duplicateVersion !== null) {
             if (this.version.releaseDate !== '') {

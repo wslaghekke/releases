@@ -22,6 +22,21 @@
           <a class="aui-button aui-button-primary" v-on:click="setReleaseDateToday">Today</a>
         </div>
       </div>
+      <div class="field-group field-group-checkbox">
+        <label for="create-version-tst">TST</label>
+        <aui-toggle-button v-bind:disabled="versionCreatePending" v-model="versionTst" id="create-version-tst">
+        </aui-toggle-button>
+      </div>
+      <div class="field-group field-group-checkbox">
+        <label for="create-version-acc">ACC</label>
+        <aui-toggle-button v-bind:disabled="versionCreatePending" v-model="versionAcc" id="create-version-acc">
+        </aui-toggle-button>
+      </div>
+      <div class="field-group field-group-checkbox">
+        <label for="create-version-prod">PROD</label>
+        <aui-toggle-button v-bind:disabled="versionCreatePending" v-model="versionProd" id="create-version-prod">
+        </aui-toggle-button>
+      </div>
       <div class="field-group">
         <label for="create-version-description">Description</label>
         <input v-bind:disabled="versionCreatePending" id="create-version-description" class="text" type="text"
@@ -47,6 +62,9 @@
         versionName: '',
         versionStartDate: moment().format('YYYY-MM-DD'),
         versionReleaseDate: '',
+        versionTst: false,
+        versionAcc: false,
+        versionProd: false,
         versionDescription: '',
         versionCreatePending: false,
       };
@@ -54,9 +72,14 @@
     methods: {
       onSubmit() {
         this.versionCreatePending = true;
+        let descriptionString = '';
+        descriptionString += this.versionTst ? 'TST ' : '';
+        descriptionString += this.versionAcc ? 'ACC ' : '';
+        descriptionString += this.versionProd ? 'PROD ' : '';
+        descriptionString += this.versionDescription;
         this.$store.dispatch('createVersion', {
           name: this.versionName,
-          description: this.versionDescription,
+          description: descriptionString,
           startDate: this.versionStartDate,
           releaseDate: this.versionReleaseDate,
         }).then(() => {
@@ -64,6 +87,9 @@
           this.versionName = '';
           this.versionStartDate = moment().format('YYYY-MM-DD');
           this.versionReleaseDate = '';
+          this.versionTst = false;
+          this.versionAcc = false;
+          this.versionProd = false;
           this.versionDescription = '';
           setTimeout(() => {
             AJS.$('#create-version-name').focus();
@@ -139,6 +165,10 @@
         a, button {
           flex: 0;
         }
+      }
+
+      &.field-group-checkbox {
+        flex: 0;
       }
 
       &#button-group {
