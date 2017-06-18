@@ -100,6 +100,9 @@ const mutations = {
       }
       // Add project to start of recentProjects
       paramState.recentProjects.unshift(project);
+      if (paramState.recentProjects.length >= 11) {
+        paramState.recentProjects.splice(10, 1);
+      }
       window.localStorage.setItem('recentProjects', JSON.stringify(paramState.recentProjects));
     }
   },
