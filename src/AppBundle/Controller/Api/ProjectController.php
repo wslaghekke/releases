@@ -21,7 +21,7 @@ class ProjectController extends AbstractAtlassianConnectController
      * @Route("/project")
      * @throws \Exception
      */
-    public function listAction()
+    public function listAction(): Response
     {
         return $this->handleGetApi('/rest/api/2/project');
     }

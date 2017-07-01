@@ -33,6 +33,13 @@ export default {
         store.commit(mutationTypes.DELETE_VERSION, version);
       }
     });
+    channel.bind(tenantEvents.MOVE_VERSION, (data) => {
+      const version = store.state.allVersions.find(item => item.id === data.version);
+      const nextIndex = store.state.allVersions.findIndex(item => item.self === data.next);
+      if (store.state.selectedProject.id.toString() === version.projectId.toString()) {
+        store.commit(mutationTypes.MOVE_VERSION, [version, nextIndex]);
+      }
+    });
   },
 };
 

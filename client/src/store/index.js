@@ -83,6 +83,25 @@ const actions = {
       return Promise.reject(error);
     });
   },
+  moveVersion({ commit }, { currentId, nextId }) {
+    const versionIndex = state.allVersions.findIndex(
+      someVersion => someVersion.id === String(currentId),
+    );
+    let nextVersionIndex = null;
+    if (typeof nextId !== 'undefined') {
+      nextVersionIndex = state.allVersions.findIndex(
+        someOtherVersion => someOtherVersion.id === String(nextId),
+      );
+    }
+    const nextVersion = nextVersionIndex === null ? null : state.allVersions[nextVersionIndex];
+    const version = state.allVersions[versionIndex];
+
+    commit(types.MOVE_VERSION, [version, nextVersionIndex]);
+    return projectApi.moveVersion(version, nextVersion).then(result => result, (error) => {
+      commit(types.MOVE_VERSION, [version, versionIndex]);
+      return Promise.reject(error);
+    });
+  },
 };
 
 // mutations
@@ -122,6 +141,17 @@ const mutations = {
     const index = paramState.allVersions.findIndex(someVersion => someVersion.id === version.id);
     if (index > -1) {
       paramState.allVersions.splice(index, 1, version);
+    }
+  },
+  [types.MOVE_VERSION](paramState, [version, newIndex]) {
+    const index = paramState.allVersions.findIndex(
+      someOtherVersion => someOtherVersion.id === version.id,
+    );
+    let toIndex = newIndex === null ? 0 : newIndex;
+    toIndex = toIndex < index ? toIndex + 1 : toIndex;
+    if (index > -1) {
+      paramState.allVersions.splice(index, 1);
+      paramState.allVersions.splice(toIndex, 0, version);
     }
   },
 };

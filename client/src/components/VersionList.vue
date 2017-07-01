@@ -4,7 +4,7 @@
     <table class="aui versions-table">
       <thead>
       <tr>
-        <!--<th class="versions-table__handle"></th>-->
+        <th class="versions-table__handle"></th>
         <th class="versions-table__name">Version</th>
         <th class="versions-table__status">Status</th>
         <!--<th class="versions-table__progress">Progress</th>-->
@@ -14,9 +14,11 @@
         <th class="dynamic-table__actions">Actions</th>
       </tr>
       </thead>
-      <tbody>
-      <tr v-for="version in versions" :key="version.id">
-        <!--<th>TODO: TABLE_HANDLE</th>-->
+      <tbody id="releases-table-tbody" class="items">
+      <tr v-for="version in versions" :key="version.id" v-bind:data-version-id="version.id">
+        <td class="versions-table__handle">
+          <span class="aui-icon aui-icon-small aui-iconfont-appswitcher">Reorder versions</span>
+        </td>
         <td><a target="_blank" v-bind:href="getIssueUrl(version.id)">{{ version.name }}</a></td>
         <td>
           <aui-lozenge v-if="version.archived" subtle>Archived</aui-lozenge>
@@ -53,10 +55,14 @@
 </template>
 
 <script>
+  import $ from 'jquery';
+  import Sortable from 'sortablejs';
   import VersionCreateForm from './VersionCreateForm';
   import VersionDeleteDialog from './dialog/VersionDeleteDialog';
   import VersionEditDialog from './dialog/VersionEditDialog';
   import VersionReleaseDialog from './dialog/VersionReleaseDialog';
+
+  let versionsSortable;
 
   export default {
     name: 'versionList',
@@ -90,6 +96,29 @@
       selectedProject() {
         return this.$store.state.selectedProject;
       },
+    },
+    mounted() {
+      const el = document.getElementById('releases-table-tbody');
+      if (typeof versionsSortable === 'undefined' && typeof this.$store !== 'undefined' && this.$store !== null) {
+        const that = this;
+
+        versionsSortable = new Sortable(el, {
+          handle: '.versions-table__handle',
+          delay: 0,
+          scroll: true,
+          onUpdate(event) {
+            const currentId = $(event.item).data('version-id');
+            const nextId = $(event.item).nextAll('tr[data-version-id]').first().data('version-id');
+
+            that.$store.dispatch('moveVersion', { currentId, nextId }).catch((error) => {
+              console.log(
+                'Error moving version.',
+                `<p>${error.response.status} ${error.response.statusText}</p>`,
+              );
+            });
+          },
+        });
+      }
     },
   };
 </script>

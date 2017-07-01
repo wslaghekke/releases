@@ -13,5 +13,6 @@ class TenantEvents
     const CREATE_VERSION = 'CREATE_VERSION';
     const UPDATE_VERSION = 'UPDATE_VERSION';
     const DELETE_VERSION = 'DELETE_VERSION';
+    const MOVE_VERSION = 'MOVE_VERSION';
 
 }

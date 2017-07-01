@@ -1,3 +1,4 @@
 export const CREATE_VERSION = 'CREATE_VERSION';
 export const UPDATE_VERSION = 'UPDATE_VERSION';
 export const DELETE_VERSION = 'DELETE_VERSION';
+export const MOVE_VERSION = 'MOVE_VERSION';

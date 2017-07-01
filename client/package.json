@@ -14,10 +14,12 @@
     "@types/pusher-js": "^3.0.29",
     "@types/whatwg-fetch": "^0.0.33",
     "axios": "^0.16.1",
+    "jquery": "^3.2.1",
     "moment": "^2.18.1",
     "node-sass": "^4.5.3",
     "pusher-js": "^4.1.0",
     "sass-loader": "^6.0.5",
+    "sortablejs": "^1.6.0",
     "vue": "^2.3.3",
     "vue-aui": "^0.6.7",
     "vuex": "^2.3.1"

@@ -27,10 +27,25 @@ function editVersion(versionData) {
   return axios.put(`/api/version/${versionData.id}`, versionData).then(response => response.data);
 }
 
+function moveVersion(version, nextVersion) {
+  let versionData;
+  if (typeof nextVersion !== 'undefined' && nextVersion !== null) {
+    versionData = {
+      after: nextVersion.self,
+    };
+  } else {
+    versionData = {
+      position: 'First',
+    };
+  }
+  return axios.post(`/api/version/${version.id}/move`, versionData).then(response => response.data);
+}
+
 export default {
   getProjects,
   getVersions,
   createVersion,
   deleteVersion,
   editVersion,
+  moveVersion,
 };
