@@ -7,6 +7,7 @@ import Axios from 'axios';
  * @property {string} base_url Base url for current JIRA Installation
  * @property {string|null} pusher_api_key Api key for pusher, or null if disabled
  * @property {Object} pusher_config Configuration for pusher client
+ * @property {string|null} sentry_public_dsn Public sentry dns for Raven
  */
 
 /**

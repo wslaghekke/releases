@@ -30,6 +30,7 @@ class DefaultController extends Controller
                     ],
                 ],
             ],
+            'sentry_public_dsn' => $this->getParameter('sentry_public_dsn'),
         ];
     }
 

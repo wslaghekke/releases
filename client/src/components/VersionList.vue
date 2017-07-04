@@ -111,7 +111,8 @@
             const nextId = $(event.item).nextAll('tr[data-version-id]').first().data('version-id');
 
             that.$store.dispatch('moveVersion', { currentId, nextId }).catch((error) => {
-              console.log(
+              // TODO: Add popup
+              console.error(
                 'Error moving version.',
                 `<p>${error.response.status} ${error.response.statusText}</p>`,
               );

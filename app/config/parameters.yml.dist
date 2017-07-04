@@ -34,3 +34,4 @@ parameters:
     pusher_app_secret: ~
 
     sentry_dsn: ~
+    sentry_public_dsn: ~

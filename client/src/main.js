@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import VueAui from 'vue-aui';
 import axios from 'axios';
+import Raven from 'raven-js';
+import RavenVue from 'raven-js/plugins/vue';
 import { getAppConfiguration } from './util';
 import store from './store';
 import pusher from './pusher';
@@ -19,6 +21,15 @@ getAppConfiguration().then((appConfig) => {
       appConfig.api_key,
       appConfig.tenant_id,
     );
+  }
+
+  if (appConfig.sentry_public_dsn !== null) {
+    Raven
+      .config(appConfig.sentry_public_dsn)
+      .addPlugin(RavenVue, Vue)
+      .install();
+
+    console.info('Raven started');
   }
 
   /* eslint-disable no-new */
