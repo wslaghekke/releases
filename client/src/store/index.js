@@ -47,6 +47,30 @@ const actions = {
   },
   getAllVersions({ commit }, projectKey) {
     return projectApi.getVersions(projectKey).then((versions) => {
+      // for (let index = 0; index < versions.length; index += 1) {
+      //   projectApi.getRelatedIssueCounts(versions[index].id).then((relatedIssueCounts) => {
+      //     console.log(relatedIssueCounts);
+      //     versions[index].issueCountWithCustomFieldsShowingVersion =
+      //       relatedIssueCounts.issueCountWithCustomFieldsShowingVersion;
+      //     versions[index].issuesAffectedCount = relatedIssueCounts.issuesAffectedCount;
+      //     versions[index].issuesFixedCount = relatedIssueCounts.issuesFixedCount;
+      //     console.log(versions);
+      //     commit(types.RECEIVE_VERSIONS, versions);
+      //   });
+      // }
+      const fn = function asyncMultiplyBy2(version) {
+        return projectApi.getRelatedIssueCounts(version.id).then((relatedIssueCounts) => {
+          version.issueCountWithCustomFieldsShowingVersion =
+            relatedIssueCounts.issueCountWithCustomFieldsShowingVersion;
+          version.issuesAffectedCount = relatedIssueCounts.issuesAffectedCount;
+          version.issuesFixedCount = relatedIssueCounts.issuesFixedCount;
+          return version;
+        });
+      };
+      Promise.all(versions.map(fn)).then((data) => {
+        console.log(data);
+        commit(types.RECEIVE_VERSIONS, data);
+      });
       commit(types.RECEIVE_VERSIONS, versions);
     });
   },

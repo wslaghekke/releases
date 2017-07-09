@@ -3,8 +3,11 @@
 namespace AppBundle\Controller\Api;
 
 use AppBundle\TenantEvents;
+use AtlassianConnectBundle\Model\JWTRequest;
+use GuzzleHttp\Exception\ClientException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,7 +24,9 @@ class VersionController extends AbstractAtlassianConnectController
      * @Method("POST")
      *
      * @param Request $request
+     *
      * @return Response
+     * @throws \LogicException
      */
     public function createAction(Request $request): Response
     {
@@ -42,8 +47,11 @@ class VersionController extends AbstractAtlassianConnectController
      * @Route("/version/{id}", requirements={"id": "\d+"})
      * @Method({"DELETE"})
      *
+     * @param Request $request
      * @param $id
+     *
      * @return Response
+     * @throws \LogicException
      */
     public function deleteAction(Request $request, $id): Response
     {
@@ -64,8 +72,11 @@ class VersionController extends AbstractAtlassianConnectController
      * @Route("/version/{id}", requirements={"id": "\d+"})
      * @Method({"PUT"})
      *
+     * @param Request $request
      * @param $id
+     *
      * @return Response
+     * @throws \LogicException
      */
     public function editAction(Request $request, $id): Response
     {
@@ -109,6 +120,31 @@ class VersionController extends AbstractAtlassianConnectController
         }
 
         return $response;
+    }
+
+    /**
+     * @Route("/version/{id}/relatedIssueCounts", requirements={"id": "\d+"})
+     * @Method({"GET"})
+     *
+     * @param $id
+     *
+     * @return JsonResponse|Response
+     * @throws \LogicException
+     * @throws \InvalidArgumentException
+     * @throws ClientException
+     */
+    public function getRelatedIssueCountsAction($id)
+    {
+        try {
+            $jwtRequest = new JWTRequest($this->getUser());
+
+            return new JsonResponse($jwtRequest->get("/rest/api/2/version/$id/relatedIssueCounts"));
+        } catch (ClientException $e) {
+            if ($e->getResponse()->getStatusCode() === 404) {
+                return new Response('', 404);
+            }
+            throw $e;
+        }
     }
 
 }

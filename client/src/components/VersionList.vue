@@ -7,7 +7,7 @@
         <th class="versions-table__handle"></th>
         <th class="versions-table__name">Version</th>
         <th class="versions-table__status">Status</th>
-        <!--<th class="versions-table__progress">Progress</th>-->
+        <th class="versions-table__progress">Progress</th>
         <th class="versions-table__date">Start date</th>
         <th class="versions-table__date">Release date</th>
         <th class="versions-table__description">Description</th>
@@ -25,7 +25,11 @@
           <aui-lozenge v-else-if="version.released" subtle type="success">Released</aui-lozenge>
           <aui-lozenge v-else subtle type="current">Unreleased</aui-lozenge>
         </td>
-        <!--<td>TODO: Figure out if its possible to get issue progress data</td>-->
+        <td>
+          <div>Issue count with custom fields showing version: {{ version.issueCountWithCustomFieldsShowingVersion }}</div>
+          <div>Issues affected count: {{ version.issuesAffectedCount }}</div>
+          <div>Issues fixed count: {{ version.issuesFixedCount }}</div>
+        </td>
         <td>{{ version.startDate }}</td>
         <td>{{ version.releaseDate }}</td>
         <td>{{ version.description }}</td>
@@ -42,6 +46,9 @@
             </a>
             <a class="aui-button aui-button" v-on:click="deleteVersion(version)" title="Delete">
               <span class="aui-icon aui-icon-small aui-iconfont-delete">Delete</span>
+            </a>
+            <a class="aui-button aui-button" v-on:click="test()" title="test">
+              <span class="aui-icon aui-icon-small aui-iconfont-admin-fusion">test</span>
             </a>
           </div>
         </td>
@@ -87,6 +94,20 @@
       },
       getIssueUrl(versionId) {
         return `${window.baseUrl}/browse/${this.selectedProject.key}/fixforversion/${versionId}`;
+      },
+      test() {
+        const settings = {
+          async: true,
+          crossDomain: true,
+          url: 'https://{{host}}.atlassian.net/rest/projects/1.0/project/TES/release/allversions',
+          method: 'GET',
+          headers: {
+            'content-type': 'application/json',
+            'cache-control': 'no-cache',
+          },
+        };
+
+        $.ajax(settings).done(response => console.log(response));
       },
     },
     computed: {

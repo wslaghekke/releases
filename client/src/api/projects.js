@@ -41,6 +41,14 @@ function moveVersion(version, nextVersion) {
   return axios.post(`/api/version/${version.id}/move`, versionData).then(response => response.data);
 }
 
+/**
+ * @param id
+ * @returns {Promise}
+ */
+function getRelatedIssueCounts(id) {
+  return axios.get(`/api/version/${id}/relatedIssueCounts`).then(response => response.data);
+}
+
 export default {
   getProjects,
   getVersions,
@@ -48,4 +56,5 @@ export default {
   deleteVersion,
   editVersion,
   moveVersion,
+  getRelatedIssueCounts,
 };
