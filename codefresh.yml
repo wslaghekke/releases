@@ -15,7 +15,7 @@ steps:
       - cd client
       - npm run build
   build_frontend:
-    type: Building frontend image
+    title: Building frontend image
     type: build
     image_name: wslaghekke/releases-nginx
     working_directory: ${{main_clone}}
