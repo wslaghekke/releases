@@ -7,3 +7,4 @@
 .dockerignore
 Dockerfile
 docker-compose.yml
+client/node_modules
