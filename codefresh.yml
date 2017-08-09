@@ -9,7 +9,11 @@ steps:
     dockerfile: Dockerfile
   build_static:
     title: Building client js
-    type:
+    type: freestyle
+    image: node
+    commands:
+      - cd client
+      - npm run build
   build_frontend:
     type: Building frontend image
     type: build
