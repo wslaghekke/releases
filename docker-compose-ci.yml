@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  nginx:
+    image: wslaghekke/releases-nginx
+    ports:
+      - '80:80'
+    depends_on:
+      - app
+  app:
+    image: wslaghekke/releases-app
+    environment:
+      - DB_HOST=releases
+      - DB_PORT=3306
+      - DB_NAME=releases
+      - DB_USER=releases
+      - DB_PASSWORD=password
+      - DB_RANDOM_ROOT_PASSWORD=true
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql
+    environment:
+      - MYSQL_DATABASE=releases
+      - MYSQL_PASSWORD=password
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      - MYSQL_USER=releases

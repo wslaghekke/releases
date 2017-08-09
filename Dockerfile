@@ -49,11 +49,11 @@ RUN rm -Rf docker/
 
 ENV SYMFONY_ENV prod
 ENV SYMFONY_SECRET ekjhgrkjthdfkke
-ENV DATABASE_HOST mysql
-ENV DATABASE_PORT 3306
-ENV DATABASE_NAME releases
-ENV DATABASE_USER releases
-ENV DATABASE_PASSWORD password
+ENV DB_HOST mysql
+ENV DB_PORT 3306
+ENV DB_NAME releases
+ENV DB_USER releases
+ENV DB_PASSWORD password
 
 RUN mkdir -p var/cache var/logs var/sessions \
     && composer install --prefer-dist --no-dev --no-progress --no-suggest --optimize-autoloader --classmap-authoritative --no-interaction \

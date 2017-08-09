@@ -1,0 +1,24 @@
+version: '1.0'
+
+steps:
+  build_backend:
+    title: Building backend image
+    type: build
+    image_name: wslaghekke/releases-app
+    working_directory: ${{main_clone}}
+    dockerfile: Dockerfile
+  build_static:
+    title: Building client js
+    type:
+  build_frontend:
+    type: Building frontend image
+    type: build
+    image_name: wslaghekke/releases-nginx
+    working_directory: ${{main_clone}}
+    dockerfile: docker/nginx/Dockerfile
+  launch_composition:
+    title: Launching releases
+    type: launch-composition
+    composition: docker-compose-ci.yml
+    environment_name: releases-ci
+    entry_point: nginx

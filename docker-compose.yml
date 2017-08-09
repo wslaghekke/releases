@@ -24,3 +24,11 @@ services:
       - ./web:/srv/app/web:ro
     ports:
       - '80:80'
+
+  mysql:
+    image: mysql
+    environment:
+      - MYSQL_DATABASE=releases
+      - MYSQL_PASSWORD=password
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      - MYSQL_USER=releases
